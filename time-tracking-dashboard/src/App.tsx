@@ -8,6 +8,7 @@ import socialSvg from "../public/images/icon-social.svg";
 import selfCareSvg from "../public/images/icon-self-care.svg";
 import data from "./data/data.json";
 import { useState } from "react";
+import Hero from "./Hero";
 
 type CardProps = {
   bgClass: string;
@@ -116,62 +117,69 @@ function App() {
       : "text-pale-blue";
 
   return (
-    <main className="h-screen w-full flex items-center justify-center">
-      <section className="h-3/4 w-11/12 grid md:grid-cols-4 gap-4 items-center justify-items-center">
-        <div className="h-full w-full row-span-2 bg-dark-blue rounded-xl flex flex-col">
-          <div className="basis-3/4 bg-blue rounded-xl flex flex-col pl-5 justify-evenly">
-            <div>
-              <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
+    <>
+      <header>
+        <Hero />
+      </header>
+      <main id="main" className="h-screen w-full flex items-center justify-center">
+        <section className="h-3/4 w-11/12 grid md:grid-cols-4 gap-4 items-center justify-items-center">
+          <div className="h-full w-full row-span-2 bg-dark-blue rounded-xl flex flex-col">
+            <div className="basis-3/4 bg-blue rounded-xl flex flex-col pl-5 justify-evenly">
+              <div>
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+              </div>
+              <div className="flex flex-col text-white justify-center">
+                <small className="text-muted-foreground">Report for</small>
+                <h1 className="text-4xl">Jeremy</h1>
+                <h1 className="text-4xl">Johnson</h1>
+              </div>
             </div>
-            <div className="flex flex-col text-white justify-center">
-              <small className="text-muted-foreground">Report for</small>
-              <h1 className="text-4xl">Jeremy</h1>
-              <h1 className="text-4xl">Johnson</h1>
+            <div className="basis-1/4 flex flex-col items-start justify-center">
+              <Button
+                className={`text-pale-blue hover:text-white ${isActive(
+                  "daily"
+                )}`}
+                variant="link"
+                onClick={() => handleTimeframeChange("daily")}
+              >
+                Daily
+              </Button>
+              <Button
+                className={`text-pale-blue hover:text-white ${isActive(
+                  "weekly"
+                )}`}
+                variant="link"
+                onClick={() => handleTimeframeChange("weekly")}
+              >
+                Weekly
+              </Button>
+              <Button
+                className={`text-pale-blue hover:text-white ${isActive(
+                  "monthly"
+                )}`}
+                variant="link"
+                onClick={() => handleTimeframeChange("monthly")}
+              >
+                Monthly
+              </Button>
             </div>
           </div>
-          <div className="basis-1/4 flex flex-col items-start justify-center">
-            <Button
-              className={`text-pale-blue hover:text-white ${isActive("daily")}`}
-              variant="link"
-              onClick={() => handleTimeframeChange("daily")}
-            >
-              Daily
-            </Button>
-            <Button
-              className={`text-pale-blue hover:text-white ${isActive(
-                "weekly"
-              )}`}
-              variant="link"
-              onClick={() => handleTimeframeChange("weekly")}
-            >
-              Weekly
-            </Button>
-            <Button
-              className={`text-pale-blue hover:text-white ${isActive(
-                "monthly"
-              )}`}
-              variant="link"
-              onClick={() => handleTimeframeChange("monthly")}
-            >
-              Monthly
-            </Button>
-          </div>
-        </div>
-        {activities.map((item, index) => (
-          <Card
-            key={index}
-            bgClass={determineBgClass(item.title)}
-            imgSrc={determineImgSrc(item.title)}
-            title={item.title}
-            hours={`${item.timeframes[timeframe].current}hrs`}
-            previousHours={`Last ${timeframe} - ${item.timeframes[timeframe].previous}hrs`}
-          />
-        ))}
-      </section>
-    </main>
+          {activities.map((item, index) => (
+            <Card
+              key={index}
+              bgClass={determineBgClass(item.title)}
+              imgSrc={determineImgSrc(item.title)}
+              title={item.title}
+              hours={`${item.timeframes[timeframe].current}hrs`}
+              previousHours={`Last ${timeframe} - ${item.timeframes[timeframe].previous}hrs`}
+            />
+          ))}
+        </section>
+      </main>
+    </>
   );
 }
 
